@@ -1,0 +1,21 @@
+#statusbar {
+    display: inline-block;
+    height: 20px;
+    padding: 2px;
+    display: flex;
+    column-gap: 20px;
+    color: #777;
+    background-color: #313131;
+}
+
+#name {
+    font-family: sans-serif;
+}
+
+#health-l {}
+
+#charge-l {}
+
+#oxigen-l {}
+
+#deep-l {}
