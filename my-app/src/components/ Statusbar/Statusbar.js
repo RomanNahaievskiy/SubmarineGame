@@ -8,7 +8,7 @@ function Statusbar({ submarineState }) {
             <div id="healt-l">Health : {submarineState.health}%</div>
             <div id="charge-l">Charge : {submarineState.charge}%</div>
             <div id="oxigen-l">Oxigen : {submarineState.oxigen}</div>
-            <div id="deep-l">Deep : {submarineState.deep}m</div>
+            <div id="deep-l">Deep : {Math.round(submarineState.deep)}m</div>
         </div>
     );
 }

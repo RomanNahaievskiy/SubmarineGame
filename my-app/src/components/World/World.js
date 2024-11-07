@@ -19,24 +19,74 @@ function World({ keyEvent }) {
     }
     );
 
+
+
+
+    //========================================================================================================================================================
+    // керування - клавіші вгору вниз
+    const [isMovingDown, setIsMovingDown] = useState(false);
+    const [isMovingUp, setIsMovingUp] = useState(false);
+
     useEffect(() => {
-        if (keyEvent) {
-            // console.log(keyEvent.code);
+        //ф коли натискається клавіша
+        const handleKeyDown = (event) => {
+            if (event.code === 'ArrowDown') {
+                setIsMovingDown(true);//зміна стану  на- [рухається вниз]
+            } else if (event.code === 'ArrowUp') {
+                setIsMovingUp(true);//зміна стану  на- [рухається вгору]
+            }
+        };
+        //ф коли відпускається клавіша
+        const handleKeyUp = (event) => {
+            if (event.code === 'ArrowDown') {
+                setIsMovingDown(false);//зміна стану  на- [!рухається ]
+            } else if (event.code === 'ArrowUp') {
+                setIsMovingUp(false);//зміна стану  на- [!рухається ]
+            }
+        };
 
-            setSubmarineState(prevState => {
+        window.addEventListener('keydown', handleKeyDown); //призначаємо прослуховувач подій коли натиснута клавіша
+        window.addEventListener('keyup', handleKeyUp); //призначаємо прослуховувач подій коли відпущена клавіша
 
-                if (keyEvent.code === 'ArrowDown' && prevState.deep < 69) {
-                    // Збільшуємо глибину, якщо поточне значення менше 69  але це костиль
-                    return { ...prevState, deep: prevState.deep + 1 };
-                } else if (keyEvent.code === 'ArrowUp' && prevState.deep > 0) {
-                    // Зменшуємо глибину, якщо поточне значення більше 0
-                    return { ...prevState, deep: prevState.deep - 1 };
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown); // повертаємо їх  із хука
+            window.removeEventListener('keyup', handleKeyUp); // повертаємо їх  із хука
+        };
+    }, []);
+    // Другий аргумент (масив залежностей []) — це масив залежностей, 
+    //в якому ви вказуєте значення або змінні, за зміною яких ефект має перезапускатися.
+    // Якщо масив порожній[], ефект виконується лише один раз — після первинного рендеру компонента.
+
+
+
+    //========================================================================================================================================================
+    //? requestAnimationFrame 
+    // Використання requestAnimationFrame - для плавності руху субмарини
+
+    useEffect(() => {
+        let animationFrameId; // створення змінної для id майбутньої animationFrame, яка потрібна буде для її припинення 
+
+        const updatePosition = () => {
+            setSubmarineState((prevState) => {
+                if (isMovingDown && prevState.deep < 69) {
+                    return { ...prevState, deep: prevState.deep + 0.1 };
+                } else if (isMovingUp && prevState.deep > 0) {
+                    return { ...prevState, deep: prevState.deep - 0.1 };
                 }
-                // Повертаємо поточний стан, якщо жодна умова не виконана
-                return { ...prevState };
+                return prevState;
             });
-        }
-    }, [keyEvent]);
+
+            animationFrameId = requestAnimationFrame(updatePosition);
+        };
+
+        updatePosition();
+
+        return () => cancelAnimationFrame(animationFrameId);
+    }, [isMovingDown, isMovingUp]);// Другий аргумент (масив залежностей []) — це масив залежностей, 
+    //в якому ви вказуєте значення або змінні, за зміною яких ефект має перезапускатися.
+    // Якщо масив порожній[], ефект виконується лише один раз — після первинного рендеру компонента.
+
+
 
     return (
         <div id="world">

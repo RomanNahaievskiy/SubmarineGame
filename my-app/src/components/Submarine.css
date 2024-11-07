@@ -7,7 +7,7 @@
     position: absolute;
     top: 22%;
     left: calc(50% - 150px);
-    transition: all 0.6s ease 0s;
+    /* transition: all 0.1s ease 0s; впливає на requestdAnimationFrame */
 }
 
 #submarine::before {
