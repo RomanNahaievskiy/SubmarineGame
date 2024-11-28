@@ -3,22 +3,35 @@ import './World.css';
 import Submarine from "../Submarine";
 import '../Submarine.css';
 import Statusbar from "../ Statusbar/Statusbar";
+import Manometer from "../Manometer/Manometer";
+import '../Manometer/Manometer.css';
+
 
 
 function World({ keyEvent }) {
 
-    const [submarineState, setSubmarineState] = useState({
+    const [submarineResources, setSubmarineResourses] = useState({
         'oxigen': 100,
         'charge': 100,
         'fuel': 100,
-        'deep': 0,
         'health': 100,
-        'critical preassure': 200,
-        'inner opacity': 0.1,
+    })
+
+    const [submarineCoords, setSubmarineCoords] = useState({
+        'coords': [50, 40],
+        'deep': 0,
         'isMoving': false,
+    })
+    const [submarineState, setSubmarineState] = useState({
+
+        'max preassure': 12,
+        'critical preassure': 20,
+        'inner opacity': 0.9,
+
+
+
     }
     );
-
 
 
 
@@ -49,8 +62,8 @@ function World({ keyEvent }) {
         window.addEventListener('keyup', handleKeyUp); //призначаємо прослуховувач подій коли відпущена клавіша
 
         return () => {
-            window.removeEventListener('keydown', handleKeyDown); // повертаємо їх  із хука
-            window.removeEventListener('keyup', handleKeyUp); // повертаємо їх  із хука
+            window.removeEventListener('keydown', handleKeyDown); // видаляю їх  із хука
+            window.removeEventListener('keyup', handleKeyUp); // видаляю їх  із хука
         };
     }, []);
     // Другий аргумент (масив залежностей []) — це масив залежностей, 
@@ -67,11 +80,11 @@ function World({ keyEvent }) {
         let animationFrameId; // створення змінної для id майбутньої animationFrame, яка потрібна буде для її припинення 
 
         const updatePosition = () => {
-            setSubmarineState((prevState) => {
+            setSubmarineCoords((prevState) => {
                 if (isMovingDown && prevState.deep < 69) {
-                    return { ...prevState, deep: prevState.deep + 0.1 };
+                    return { ...prevState, deep: prevState.deep + 0.6 };
                 } else if (isMovingUp && prevState.deep > 0) {
-                    return { ...prevState, deep: prevState.deep - 0.1 };
+                    return { ...prevState, deep: prevState.deep - 0.6 };
                 }
                 return prevState;
             });
@@ -86,15 +99,20 @@ function World({ keyEvent }) {
     //в якому ви вказуєте значення або змінні, за зміною яких ефект має перезапускатися.
     // Якщо масив порожній[], ефект виконується лише один раз — після первинного рендеру компонента.
 
+    // function Bubbles({ coords }) {
+    //     return <div id="bubble" style={{ top: coords[0], left: coords[1] }}>o</ div>
+    // }
 
 
     return (
         <div id="world">
             <div id="sky">
-                <Statusbar submarineState={submarineState} />
+                <Statusbar submarineState={submarineState} submarineCoords={submarineCoords} submarineResources={submarineResources} />
+                <Manometer maxPreassure={submarineState["max preassure"]} criticalPreassure={submarineState["critical preassure"]} deep={submarineCoords.deep} />
                 <div className="clouds"></div>
             </div>
-            <Submarine keyEvent={keyEvent} submarineState={submarineState} />
+            <Submarine submarineState={submarineState} submarineCoords={submarineCoords} submarineResources={submarineResources} />
+            {/* <Bubbles coords={submarineState.coords} /> */}
             <div id="surface"></div>
             <div id="underwater">
                 <div id="seabed"></div>

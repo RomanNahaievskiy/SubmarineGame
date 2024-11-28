@@ -6,6 +6,7 @@
     background-color: #000;
     position: absolute;
     top: 22%;
+
     left: calc(50% - 150px);
     /* transition: all 0.1s ease 0s; впливає на requestdAnimationFrame */
 }
@@ -163,4 +164,24 @@
 #engine {
     border-radius: 300px 0px 0px 300px;
 
+}
+
+
+#bubble {
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: disapear 2s ease;
+}
+
+
+@keyframes disapear {
+    0% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: 0;
+    }
 }

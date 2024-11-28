@@ -1,14 +1,14 @@
 import React from "react";
 import './Statusbar.css'
 
-function Statusbar({ submarineState }) {
+function Statusbar({ submarineState, submarineResources, submarineCoords }) {
     return (
         <div id="statusbar">
             <div id="name">The{submarineState.name}</div>
-            <div id="healt-l">Health : {submarineState.health}%</div>
-            <div id="charge-l">Charge : {submarineState.charge}%</div>
-            <div id="oxigen-l">Oxigen : {submarineState.oxigen}</div>
-            <div id="deep-l">Deep : {Math.round(submarineState.deep)}m</div>
+            <div id="healt-l">Health : {submarineResources.health}%</div>
+            <div id="charge-l">Charge : {submarineResources.charge}%</div>
+            <div id="oxigen-l">Oxigen : {submarineResources.oxigen}%</div>
+            <div id="deep-l">Deep : {Math.round(submarineCoords.deep)}m</div>
         </div>
     );
 }
