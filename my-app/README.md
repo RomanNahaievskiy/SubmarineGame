@@ -68,3 +68,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Нотатки
+
+Функції можна визначати в компоненті, якщо вони стосуються тільки цього компонента.
+Якщо функції впливають на стани інших компонентів:
+Виносимо їх у батьківський компонент, який контролює ці стани.
+Передаємо функції дочірнім компонентам через пропси.
